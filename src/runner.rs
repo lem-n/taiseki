@@ -36,21 +36,16 @@ impl Stack {
             tmp
         }
     }
-}
 
-#[allow(dead_code)]
-fn print_stack_slice(stack: &Stack, count: usize) {
-    let to = if count > stack.array.len() {
-        stack.array.len()
-    } else {
-        count
-    };
-    let slice = &stack.array[0..to];
-    print!("stack [");
-    for n in slice {
-        print!(" {},", n);
+    pub fn print(&self, count: usize) {
+        let to_idx = if count > self.array.len() {
+            self.array.len()
+        } else {
+            count
+        };
+        let slice = &self.array[0..to_idx];
+        println!("Stack {:?}", slice);
     }
-    println!(" ]");
 }
 
 fn read_stdin() -> String {
@@ -63,13 +58,18 @@ fn parse_num(a: &str) -> i32 {
     a.trim().parse().unwrap()
 }
 
-pub fn run(code: Vec<i32>) -> Result<(), RunnerError> {
+pub fn run(code: Vec<i32>, debug: bool) -> Result<(), RunnerError> {
     let mut stack = Stack::create();
-    let mut ip = 0;
     let mut exit = false;
+    let mut ip = 0;
 
     while !exit && ip < code.len() {
         let op: Opcode = get_op(OpEnum::from(code[ip]));
+        if debug {
+            print!("{:?}\t", op.op);
+            stack.print(10);
+        }
+
         match op.op {
             OpEnum::Noop => {}
             OpEnum::Push => {

@@ -15,7 +15,7 @@ fn main() -> Result<(), RunnerError> {
     let code = parser::parse(filename)?;
 
     println!("program = {:?}", code);
-    runner::run(code)?;
+    runner::run(code, true)?;
 
     Ok(())
 }

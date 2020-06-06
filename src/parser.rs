@@ -11,9 +11,6 @@ pub struct Program {
     text: HashMap<String, String>,
 }
 
-// fn parse_arg(x: &str) -> i32 {
-// }
-
 pub fn parse(filename: &str) -> Result<Vec<i32>, RunnerError> {
     let file = match File::open(filename) {
         Ok(f) => f,
@@ -22,9 +19,10 @@ pub fn parse(filename: &str) -> Result<Vec<i32>, RunnerError> {
             filename
         ),
     };
-    let lines = BufReader::new(file).lines();
 
+    let lines = BufReader::new(file).lines();
     let mut code = vec![];
+
     for line in lines {
         if let Ok(ln) = line {
             let split: Vec<&str> = ln.split(' ').collect();
