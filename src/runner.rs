@@ -1,4 +1,5 @@
 use crate::ops::*;
+use std::io;
 
 #[derive(Debug)]
 pub enum RunnerError {
@@ -52,6 +53,16 @@ fn print_stack_slice(stack: &Stack, count: usize) {
     println!(" ]");
 }
 
+fn read_stdin() -> String {
+    let mut inp = String::new();
+    io::stdin().read_line(&mut inp).unwrap();
+    inp
+}
+
+fn parse_num(a: &str) -> i32 {
+    a.trim().parse().unwrap()
+}
+
 pub fn run(code: Vec<i32>) -> Result<(), RunnerError> {
     let mut stack = Stack::create();
     let mut ip = 0;
@@ -78,6 +89,11 @@ pub fn run(code: Vec<i32>) -> Result<(), RunnerError> {
             OpEnum::Print => {
                 let val = stack.pop();
                 println!("{:?}", val);
+            }
+            OpEnum::IRead => {
+                let input = read_stdin();
+                let num = parse_num(&input);
+                stack.push(num);
             }
             OpEnum::Halt => exit = true,
         }

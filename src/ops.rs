@@ -5,6 +5,7 @@ pub enum OpEnum {
     Add,
     Sub,
     Print,
+    IRead,
     Halt,
 }
 
@@ -16,7 +17,8 @@ impl From<i32> for OpEnum {
             2 => OpEnum::Add,
             3 => OpEnum::Sub,
             4 => OpEnum::Print,
-            5 => OpEnum::Halt,
+            5 => OpEnum::IRead,
+            6 => OpEnum::Halt,
             _ => OpEnum::Noop,
         }
     }
@@ -28,7 +30,7 @@ pub struct Opcode {
     pub arg_count: i32,
 }
 
-const OP_TABLE: [Opcode; 6] = [
+const OP_TABLE: [Opcode; 7] = [
     Opcode {
         op: OpEnum::Noop,
         arg_count: 0,
@@ -47,6 +49,10 @@ const OP_TABLE: [Opcode; 6] = [
     },
     Opcode {
         op: OpEnum::Print,
+        arg_count: 1,
+    },
+    Opcode {
+        op: OpEnum::IRead,
         arg_count: 0,
     },
     Opcode {

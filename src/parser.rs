@@ -1,8 +1,18 @@
 use crate::ops::*;
 use crate::runner::RunnerError;
 
+use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
+
+#[allow(dead_code)]
+pub struct Program {
+    code: Vec<i32>,
+    text: HashMap<String, String>,
+}
+
+// fn parse_arg(x: &str) -> i32 {
+// }
 
 pub fn parse(filename: &str) -> Result<Vec<i32>, RunnerError> {
     let file = match File::open(filename) {
@@ -24,6 +34,7 @@ pub fn parse(filename: &str) -> Result<Vec<i32>, RunnerError> {
                 "add" => get_op(OpEnum::Add),
                 "sub" => get_op(OpEnum::Sub),
                 "print" => get_op(OpEnum::Print),
+                "iread" => get_op(OpEnum::IRead),
                 "halt" => get_op(OpEnum::Halt),
                 _ => get_op(OpEnum::Noop),
             };

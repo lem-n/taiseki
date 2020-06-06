@@ -1,7 +1,7 @@
 push 6
 push 9
 add
-push 5
+push 7
 sub
 print
 halt

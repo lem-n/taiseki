@@ -1,0 +1,13 @@
+#text
+t1 = "input> "
+o1 = "sum = "
+
+#instr
+print %t1
+iread
+print %t1
+iread
+add
+print %o1
+print
+halt
