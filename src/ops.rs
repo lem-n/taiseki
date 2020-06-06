@@ -8,6 +8,20 @@ pub enum OpEnum {
     Halt,
 }
 
+impl From<i32> for OpEnum {
+    fn from(val: i32) -> Self {
+        match val {
+            0 => OpEnum::Noop,
+            1 => OpEnum::Push,
+            2 => OpEnum::Add,
+            3 => OpEnum::Sub,
+            4 => OpEnum::Print,
+            5 => OpEnum::Halt,
+            _ => OpEnum::Noop,
+        }
+    }
+}
+
 #[derive(Debug, Clone)]
 pub struct Opcode {
     pub op: OpEnum,
@@ -41,6 +55,6 @@ const OP_TABLE: [Opcode; 6] = [
     },
 ];
 
-pub fn get_op(i: usize) -> Opcode {
-    OP_TABLE[i].clone()
+pub fn get_op(i: OpEnum) -> Opcode {
+    OP_TABLE[i as usize].clone()
 }

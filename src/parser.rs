@@ -1,11 +1,17 @@
 use crate::ops::*;
+use crate::runner::RunnerError;
 
 use std::fs::File;
-use std::io;
 use std::io::{BufRead, BufReader};
 
-pub fn parse(filename: &str) -> Result<Vec<i32>, io::Error> {
-    let file = File::open(filename)?;
+pub fn parse(filename: &str) -> Result<Vec<i32>, RunnerError> {
+    let file = match File::open(filename) {
+        Ok(f) => f,
+        Err(_) => panic!(
+            "Invalid input file, file '{}' does seem to exist!",
+            filename
+        ),
+    };
     let lines = BufReader::new(file).lines();
 
     let mut code = vec![];
@@ -13,13 +19,13 @@ pub fn parse(filename: &str) -> Result<Vec<i32>, io::Error> {
         if let Ok(ln) = line {
             let split: Vec<&str> = ln.split(' ').collect();
             let op = match split[0] {
-                "noop" => get_op(OpEnum::Noop as usize),
-                "push" => get_op(OpEnum::Push as usize),
-                "add" => get_op(OpEnum::Add as usize),
-                "sub" => get_op(OpEnum::Sub as usize),
-                "print" => get_op(OpEnum::Print as usize),
-                "halt" => get_op(OpEnum::Halt as usize),
-                _ => get_op(OpEnum::Noop as usize),
+                "noop" => get_op(OpEnum::Noop),
+                "push" => get_op(OpEnum::Push),
+                "add" => get_op(OpEnum::Add),
+                "sub" => get_op(OpEnum::Sub),
+                "print" => get_op(OpEnum::Print),
+                "halt" => get_op(OpEnum::Halt),
+                _ => get_op(OpEnum::Noop),
             };
 
             code.push(op.op as i32);
